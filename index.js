@@ -31,4 +31,20 @@ app.post("/tasks", async (req, res) => {
     }
 });
 
+app.delete("/tasks/:id", async (req, res) => {
+    try {
+        const taksId = req.params.id;
+        const taskToDelete = await taskModel.findById(taksId);
+
+        if (!taskToDelete) {
+            return res.status(500).send("Task not found");
+        }
+        const deleteTask = await taskModel.findByIdAndDelete(taksId);
+
+        res.status(200).send(deleteTask);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.listen(8000, () => console.log("Listening on port 8000!"));
