@@ -20,7 +20,7 @@ app.get("/tasks", async (req, res) => {
     }
 });
 
-app.get("tasks/:id", async (req, res) => {
+app.get("/tasks/:id", async (req, res) => {
     try {
         const taskId = req.params.id;
         const task = await taskModel.findById(taskId);
@@ -28,6 +28,7 @@ app.get("tasks/:id", async (req, res) => {
         if (!task) {
             return res.status(404).send("Task not found");
         }
+
         res.status(200).send(task);
     } catch (error) {
         res.status(500).send(error.message);
@@ -40,6 +41,32 @@ app.post("/tasks", async (req, res) => {
         await newTask.save();
 
         res.status(201).send(newTask);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.patch("/tasks/:id", async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const taskData = req.body;
+
+        const taskToUpdate = await taskModel.findById(taskId);
+
+        const allowedUpdates = ["isCompleted"];
+        const noRequestUpdates = Object.keys(req.body);
+
+        for (update of noRequestUpdates) {
+            if (allowedUpdates.includes(update)) {
+                taskToUpdate[update] = taskData[update];
+            } else {
+                return res
+                    .status(500)
+                    .send("Um ou mais campos não são editáveis");
+            }
+        }
+        await taskToUpdate.save();
+        return res.status(200).send(taskToUpdate);
     } catch (error) {
         res.status(500).send(error.message);
     }
