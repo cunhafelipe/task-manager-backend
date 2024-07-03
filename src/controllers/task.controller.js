@@ -27,7 +27,7 @@ class TaskController {
             this.res.status(500).send(error.message);
         }
     }
-    async post() {
+    async create() {
         try {
             const newTask = new TaskModel(this.req.body);
             await newTask.save();
@@ -37,7 +37,7 @@ class TaskController {
             this.res.status(500).send(error.message);
         }
     }
-    async patch() {
+    async update() {
         try {
             const taskId = this.req.params.id;
             const taskData = this.req.body;
@@ -47,7 +47,7 @@ class TaskController {
             const allowedUpdates = ["isCompleted"];
             const noRequestUpdates = Object.keys(this.req.body);
 
-            for (update of noRequestUpdates) {
+            for (const update of noRequestUpdates) {
                 if (allowedUpdates.includes(update)) {
                     taskToUpdate[update] = taskData[update];
                 } else {

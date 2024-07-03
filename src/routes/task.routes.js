@@ -14,11 +14,11 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    return new TaskController(req, res).post();
+    return new TaskController(req, res).create();
 });
 
 router.patch("/:id", async (req, res) => {
-    return new TaskController(req, res).patch();
+    return new TaskController(req, res).update();
 });
 
 router.delete("/:id", async (req, res) => {
