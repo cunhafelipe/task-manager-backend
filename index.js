@@ -7,10 +7,11 @@ const connectToDatabase = require("./src/database/mongoose.database");
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 8000;
 app.use(express.json());
 
 connectToDatabase();
 
 app.use("/tasks", TaskRoute);
 
-app.listen(8000, () => console.log("Listening on port 8000!"));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}!`));
