@@ -12,6 +12,10 @@ app.use(express.json());
 
 connectToDatabase();
 
+app.get("/", (req, res) => {
+    res.send("Welcome to the API. Use /tasks for task management.");
+});
+
 app.use("/tasks", TaskRoute);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}!`));
