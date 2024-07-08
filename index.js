@@ -1,12 +1,14 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const TaskRoute = require("./src/routes/task.routes");
+const cors = require("cors");
 
+const TaskRoute = require("./src/routes/task.routes");
 const connectToDatabase = require("./src/database/mongoose.database");
 
 dotenv.config();
 
 const app = express();
+app.use(cors())
 const PORT = process.env.PORT || 4000;
 app.use(express.json());
 
